@@ -145,7 +145,7 @@ border-radius:5px;
 <button onclick="addItem()">Add Item</button>
 
 <input type="text" id="search" placeholder="Search Item">
-
+<button onclick="exportCSV()">Export CSV</button>
 <table>
 <thead>
 <tr>
@@ -248,6 +248,20 @@ items.splice(index,1);
 saveData();
 displayItems();
 }
+  
+function exportCSV() {
+let csv = "Category,Item,Date,Quantity\n";
+
+items.forEach(item => {
+csv += `${item.category},${item.name},${item.date},${item.qty}\n`;
+});
+
+let blob = new Blob([csv], { type: "text/csv" });
+let a = document.createElement("a");
+a.href = URL.createObjectURL(blob);
+a.download = "inventory.csv";
+a.click();
+  }
 
 
 function searchItem(){
