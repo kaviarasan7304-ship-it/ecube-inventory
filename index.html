@@ -96,6 +96,22 @@ padding:8px;
 border:none;
 border-radius:5px;
 }
+  .dashboard{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  margin-top:10px;
+}
+
+.card{
+  background:white;
+  color:black;
+  padding:10px;
+  border-radius:10px;
+  width:120px;
+  text-align:center;
+  font-weight:bold;
+}
 </style>
 </head>
 
@@ -105,6 +121,17 @@ border-radius:5px;
 <img src="logo.png" class="logo">
 <h2><span class="logo-e">e</span>Cube TVET College</h2>
 <h3>Inventory Management System</h3>
+  <div class="dashboard">
+  <div class="card">
+    <h3>Total Items</h3>
+    <p id="totalCard">0</p>
+  </div>
+
+  <div class="card">
+    <h3>Low Stock</h3>
+    <p id="lowStockCard">0</p>
+  </div>
+  </div>
 <p id="totalItems">Total Items: 0</p>
 </div>
 
@@ -153,6 +180,10 @@ table.innerHTML="";
 
 document.getElementById("totalItems").innerText =
 "Total Items: " + items.length;
+document.getElementById("totalCard").innerText = items.length;
+
+let lowStock = items.filter(item => item.qty < 5).length;
+document.getElementById("lowStockCard").innerText = lowStock;
 
 items.forEach((item,index)=>{
 
