@@ -126,6 +126,7 @@ border-radius:5px;
 <th>Item</th>
 <th>Date</th>
 <th>Quantity</th>
+<th>Status</th>
 <th>Action</th>
 </tr>
 </thead>
@@ -162,6 +163,7 @@ table.innerHTML += `
 <td>${item.name}</td>
 <td>${item.date}</td>
 <td>${item.qty}</td>
+<td>${item.qty < 5 ? "⚠️ Low Stock" : "✅ OK"}</td>
 <td>
 <button onclick="editItem(${index})">Edit</button>
 <button class="deleteBtn" onclick="deleteItem(${index})">Delete</button>
@@ -236,6 +238,9 @@ row.style.display="none";
 });
 
 }
+window.addEventListener("beforeunload", function() {
+    saveData();
+});
 document.getElementById("search")
 .addEventListener("keyup", searchItem);
 displayItems();
