@@ -139,7 +139,7 @@ border-radius:5px;
 <input type="text" id="category" placeholder="Category">
 
 <input type="text" id="itemName" placeholder="Item Name">
-
+<input type="text" id="location" placeholder="Location">
 
 <input type="number" id="qty" placeholder="Quantity">
 <button onclick="addItem()">Add Item</button>
@@ -151,6 +151,7 @@ border-radius:5px;
 <tr>
 <th>Category</th>
 <th>Item</th>
+<th>Location</th>
 <th>Date</th>
 <th>Quantity</th>
 <th>Status</th>
@@ -192,6 +193,7 @@ table.innerHTML += `
 <tr>
 <td>${item.category}</td>
 <td>${item.name}</td>
+<td>${item.location}</td>
 <td>${item.date}</td>
 <td>${item.qty}</td>
 <td>${item.qty < 5 ? "⚠️ Low Stock" : "✅ OK"}</td>
@@ -209,9 +211,10 @@ table.innerHTML += `
 function addItem(){
 let category = document.getElementById("category").value;
 let name=document.getElementById("itemName").value;
+let location = document.getElementById("location").value;
 let qty=document.getElementById("qty").value;
 
-if(category=="" || name=="" || qty==""){
+if(category=="" || name=="" || location=="" || qty==""){
 alert("Enter Category, Item and Quantity");
 return;
 }
@@ -219,6 +222,7 @@ return;
 items.push({
 category:category,
 name:name,
+location:location,
 date: new Date().toLocaleDateString(),
 qty:qty
 });
