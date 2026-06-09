@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>eCube TVET Inventory</title>
 
 <style>
-footer{
-  text-align:center;
-  padding:15px;
-  margin-top:20px;
-  background:#007bff;
-  color:white;
-  font-weight:bold;
-}
+
 body{
 font-family:Arial,sans-serif;
 background:linear-gradient(to bottom,#eef5ff,#d6e9ff);
@@ -25,10 +20,12 @@ color:white;
 text-align:center;
 padding:15px;
 }
+
 .logo-e{
-    font-size:50px;
-    font-weight:bold;
+font-size:50px;
+font-weight:bold;
 }
+
 .logo{
 width:180px;
 display:block;
@@ -38,26 +35,34 @@ margin:10px auto;
 .container{
 padding:15px;
 }
-input{
-border-radius:10px;
+
+.dashboard{
+display:flex;
+gap:10px;
+justify-content:center;
+margin-top:10px;
+flex-wrap:wrap;
 }
 
-button{
+.card{
+background:white;
+color:black;
+padding:10px;
 border-radius:10px;
-}
-
-table{
-border-radius:10px;
-overflow:hidden;
-}
-input,button{
+width:120px;
+text-align:center;
+font-weight:bold;
 box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
+
 input{
 width:100%;
 padding:10px;
 margin:5px 0;
 box-sizing:border-box;
+border-radius:10px;
+border:1px solid #ccc;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
 button{
@@ -66,8 +71,17 @@ padding:10px;
 background:#0d6efd;
 color:white;
 border:none;
-border-radius:5px;
+border-radius:10px;
 margin-top:5px;
+cursor:pointer;
+}
+
+.deleteBtn{
+background:red;
+}
+
+.editBtn{
+background:orange;
 }
 
 table{
@@ -75,13 +89,14 @@ width:100%;
 border-collapse:collapse;
 margin-top:15px;
 background:white;
+border-radius:10px;
+overflow:hidden;
 }
 
 th,td{
 border:1px solid #ddd;
 padding:8px;
 text-align:center;
-color:black;
 }
 
 th{
@@ -89,64 +104,66 @@ background:#0d6efd;
 color:white;
 }
 
-.deleteBtn{
-background:red;
+footer{
+text-align:center;
+padding:15px;
+margin-top:20px;
+background:#007bff;
 color:white;
-padding:8px;
-border:none;
-border-radius:5px;
-}
-  .dashboard{
-  display:flex;
-  gap:10px;
-  justify-content:center;
-  margin-top:10px;
+font-weight:bold;
 }
 
-.card{
-  background:white;
-  color:black;
-  padding:10px;
-  border-radius:10px;
-  width:120px;
-  text-align:center;
-  font-weight:bold;
-}
 </style>
 </head>
 
 <body>
 
 <div class="header">
-<img src="logo.png" class="logo">
-<h2><span class="logo-e">e</span>Cube TVET College</h2>
-<h3>Inventory Management System</h3>
-  <div class="dashboard">
-  <div class="card">
-    <h3>Total Items</h3>
-    <p id="totalCard">0</p>
-  </div>
 
-  <div class="card">
-    <h3>Low Stock</h3>
-    <p id="lowStockCard">0</p>
-  </div>
-  </div>
+<img src="logo.png" class="logo">
+
+<h2>
+<span class="logo-e">e</span>Cube TVET College
+</h2>
+
+<h3>Inventory Management System</h3>
+
+<div class="dashboard">
+
+<div class="card">
+<h3>Total Items</h3>
+<p id="totalCard">0</p>
+</div>
+
+<div class="card">
+<h3>Low Stock</h3>
+<p id="lowStockCard">0</p>
+</div>
+
+</div>
+
 <p id="totalItems">Total Items: 0</p>
+
 </div>
 
 <div class="container">
+
 <input type="text" id="category" placeholder="Category">
 
 <input type="text" id="itemName" placeholder="Item Name">
+
 <input type="text" id="location" placeholder="Location">
 
 <input type="number" id="qty" placeholder="Quantity">
+
 <button onclick="addItem()">Add Item</button>
 
 <input type="text" id="search" placeholder="Search Item">
+
 <button onclick="exportCSV()">Export CSV</button>
+
 <table>
+
 <thead>
 <tr>
 <th>Category</th>
@@ -161,34 +178,33 @@ border-radius:5px;
 
 <tbody id="inventoryTable">
 </tbody>
+
 </table>
 
 </div>
-
 <script>
+
 let items = JSON.parse(localStorage.getItem("inventory")) || [];
 
-
-
 function saveData(){
-localStorage.setItem("inventory",JSON.stringify(items));
+localStorage.setItem("inventory", JSON.stringify(items));
 }
 
 function displayItems(){
 
-let table=document.getElementById("inventoryTable");
+let table = document.getElementById("inventoryTable");
 
-table.innerHTML="";
+table.innerHTML = "";
 
 document.getElementById("totalItems").innerText =
 "Total Items: " + items.length;
+
 document.getElementById("totalCard").innerText = items.length;
 
 let lowStock = items.filter(item => item.qty < 5).length;
 document.getElementById("lowStockCard").innerText = lowStock;
 
 items.forEach((item,index)=>{
-
 
 table.innerHTML += `
 <tr>
@@ -199,7 +215,7 @@ table.innerHTML += `
 <td>${item.qty}</td>
 <td>${item.qty < 5 ? "⚠️ Low Stock" : "✅ OK"}</td>
 <td>
-<button onclick="editItem(${index})">Edit</button>
+<button class="editBtn" onclick="editItem(${index})">Edit</button>
 <button class="deleteBtn" onclick="deleteItem(${index})">Delete</button>
 </td>
 </tr>
@@ -210,13 +226,14 @@ table.innerHTML += `
 }
 
 function addItem(){
+
 let category = document.getElementById("category").value;
-let name=document.getElementById("itemName").value;
+let name = document.getElementById("itemName").value;
 let location = document.getElementById("location").value;
-let qty=document.getElementById("qty").value;
+let qty = document.getElementById("qty").value;
 
 if(category=="" || name=="" || location=="" || qty==""){
-alert("Enter Category, Item and Quantity");
+alert("Please fill all fields");
 return;
 }
 
@@ -224,60 +241,78 @@ items.push({
 category:category,
 name:name,
 location:location,
-date: new Date().toLocaleDateString(),
-qty:qty
+date:new Date().toLocaleDateString(),
+qty:Number(qty)
 });
 
 saveData();
 displayItems();
 
+document.getElementById("category").value="";
 document.getElementById("itemName").value="";
+document.getElementById("location").value="";
 document.getElementById("qty").value="";
+
 }
+
 function editItem(index){
+
 let newName = prompt("Edit Item Name", items[index].name);
 let newQty = prompt("Edit Quantity", items[index].qty);
 
 if(newName !== null && newQty !== null){
+
 items[index].name = newName;
-items[index].qty = newQty;
+items[index].qty = Number(newQty);
 
 saveData();
 displayItems();
+
 }
+
 }
 
 function deleteItem(index){
+
+if(confirm("Delete this item?")){
+
 items.splice(index,1);
 
 saveData();
 displayItems();
-}
-  
-function exportCSV() {
-let csv = "Category,Item,Date,Quantity\n";
 
-items.forEach(item => {
-csv += `${item.category},${item.name},${item.date},${item.qty}\n`;
+}
+
+}
+
+function exportCSV(){
+
+let csv = "Category,Item,Location,Date,Quantity\n";
+
+items.forEach(item=>{
+csv += `${item.category},${item.name},${item.location},${item.date},${item.qty}\n`;
 });
 
-let blob = new Blob([csv], { type: "text/csv" });
+let blob = new Blob([csv], {type:"text/csv"});
+
 let a = document.createElement("a");
+
 a.href = URL.createObjectURL(blob);
 a.download = "inventory.csv";
-a.click();
-  }
 
+a.click();
+
+}
 
 function searchItem(){
 
-let value=document.getElementById("search").value.toLowerCase();
+let value = document.getElementById("search").value.toLowerCase();
 
 let rows = document.querySelectorAll("#inventoryTable tr");
 
 rows.forEach(row=>{
-if(!row.innerText) return;
-let text=row.innerText.toLowerCase();
+
+let text = row.innerText.toLowerCase();
 
 if(text.includes(value)){
 row.style.display="";
@@ -288,14 +323,14 @@ row.style.display="none";
 });
 
 }
-window.addEventListener("beforeunload", function() {
-    saveData();
-});
+
 document.getElementById("search")
 .addEventListener("keyup", searchItem);
+
 displayItems();
 
 </script>
+
 <footer>
 Developed by Kavi Arasan © 2026
 </footer>
