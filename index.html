@@ -166,28 +166,9 @@ border-radius:5px;
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import {
-getFirestore,
-collection,
-addDoc,
-getDocs,
-deleteDoc,
-doc
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-const firebaseConfig = {
-apiKey: "AIzaSyAFgbWqQv7FgQUkCEhXsXrhQxHaw84XHNw",
-authDomain: "e-cube-inventory.firebaseapp.com",
-projectId: "e-cube-inventory",
-storageBucket: "e-cube-inventory.firebasestorage.app",
-messagingSenderId: "281755536716",
-appId: "1:281755536716:web:6d529ba17a2ce36c3813e9"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
 let items = JSON.parse(localStorage.getItem("inventory")) || [];
+
+
 
 function saveData(){
 localStorage.setItem("inventory",JSON.stringify(items));
